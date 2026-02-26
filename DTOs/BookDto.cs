@@ -18,7 +18,7 @@ namespace InsurTix.Api.DTOs
         [Range(1000, 2100, ErrorMessage = "Please provide a valid publication year.")]
         public int Year { get; set; }
 
-        [Range(0, 10000, ErrorMessage = "Price must be a positive number.")]
+        [Range(0, 10000, ErrorMessage = "Price must be between 0 and 10,000.")]
         public decimal Price { get; set; }
     }
 }
