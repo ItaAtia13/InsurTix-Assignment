@@ -1,0 +1,24 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.2.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InsurTix.Api", "InsurTix.Api.csproj", "{7DD03A40-2F5B-2560-D63C-9A6EDF7AB5C2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7DD03A40-2F5B-2560-D63C-9A6EDF7AB5C2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7DD03A40-2F5B-2560-D63C-9A6EDF7AB5C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7DD03A40-2F5B-2560-D63C-9A6EDF7AB5C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7DD03A40-2F5B-2560-D63C-9A6EDF7AB5C2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F78B299F-EF79-43C3-81AF-6957488A72CD}
+	EndGlobalSection
+EndGlobal
