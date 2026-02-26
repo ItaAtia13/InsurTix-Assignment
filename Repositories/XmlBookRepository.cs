@@ -1,5 +1,6 @@
 using System.Xml.Linq;
 using InsurTix.Api.Models;
+using System.Globalization;
 
 namespace InsurTix.Api.Repositories
 {
@@ -29,11 +30,9 @@ namespace InsurTix.Api.Repositories
             {
                 Isbn = element.Element("isbn")?.Value ?? string.Empty,
                 Title = element.Element("title")?.Value ?? string.Empty,
-                Year = int.TryParse(element.Element("year")?.Value, out int year) ? year : 0,
-                Price = decimal.TryParse(element.Element("price")?.Value, out decimal price) ? price : 0,
-                
+                Year = int.TryParse(element.Element("year")?.Value, NumberStyles.Any, CultureInfo.InvariantCulture, out int year) ? year : 0,
+                Price = decimal.TryParse(element.Element("price")?.Value, NumberStyles.Any, CultureInfo.InvariantCulture, out decimal price) ? price : 0,
                 Category = element.Attribute("category")?.Value ?? string.Empty,
-                
                 Authors = element.Elements("author").Select(a => a.Value).ToList()
             };
         }
@@ -45,7 +44,7 @@ namespace InsurTix.Api.Repositories
             {
                 using var stream = File.OpenRead(_filePath);
                 var doc = await XDocument.LoadAsync(stream, LoadOptions.None, CancellationToken.None);
-                
+
                 return doc.Descendants("book").Select(MapToBook).ToList();
             }
             finally
@@ -61,10 +60,10 @@ namespace InsurTix.Api.Repositories
             {
                 using var stream = File.OpenRead(_filePath);
                 var doc = await XDocument.LoadAsync(stream, LoadOptions.None, CancellationToken.None);
-                
+
                 var element = doc.Descendants("book")
                                  .FirstOrDefault(x => x.Element("isbn")?.Value == isbn);
-                                 
+
                 return element != null ? MapToBook(element) : null;
             }
             finally
@@ -79,7 +78,7 @@ namespace InsurTix.Api.Repositories
             try
             {
                 var doc = XDocument.Load(_filePath);
-                
+
                 if (doc.Descendants("book").Any(x => x.Element("isbn")?.Value == book.Isbn))
                 {
                     throw new InvalidOperationException($"Book with ISBN {book.Isbn} already exists.");
@@ -124,9 +123,18 @@ namespace InsurTix.Api.Repositories
                     element.SetElementValue("price", book.Price);
 
                     element.Elements("author").Remove();
+                    var yearElement = element.Element("year");
+
                     foreach (var author in book.Authors)
                     {
-                        element.Element("year")?.AddBeforeSelf(new XElement("author", author));
+                        if (yearElement != null)
+                        {
+                            yearElement.AddBeforeSelf(new XElement("author", author));
+                        }
+                        else
+                        {
+                            element.Add(new XElement("author", author));
+                        }
                     }
 
                     doc.Save(_filePath);

@@ -23,14 +23,14 @@ namespace InsurTix.Api.Tests
             // Arrange
             var fakeBooks = new List<Book>
             {
-                new Book 
-                { 
-                    Isbn = "123", 
-                    Title = "Unit Testing Masterclass", 
-                    Authors = new List<string> { "John Doe", "Jane Smith" } 
+                new Book
+                {
+                    Isbn = "123",
+                    Title = "Unit Testing Masterclass",
+                    Authors = new List<string> { "John Doe", "Jane Smith" }
                 }
             };
-            
+
             _mockRepo.Setup(repo => repo.GetAllBooksAsync()).ReturnsAsync(fakeBooks);
 
             // Act
@@ -38,7 +38,7 @@ namespace InsurTix.Api.Tests
 
             // Assert
             var bookDto = Assert.Single(result);
-            Assert.Equal("John Doe, Jane Smith", bookDto.Author); 
+            Assert.Equal("John Doe, Jane Smith", bookDto.Author);
         }
 
         [Fact]
@@ -54,7 +54,6 @@ namespace InsurTix.Api.Tests
             // Assert
             Assert.Null(result);
         }
-
         [Fact]
         public async Task GenerateHtmlReportAsync_ReturnsValidHtmlStructure()
         {
@@ -65,10 +64,11 @@ namespace InsurTix.Api.Tests
             var htmlResult = await _bookService.GenerateHtmlReportAsync();
 
             // Assert
+            // עדכנו את הבדיקות כך שיחפשו את העמודות עם האותיות הגדולות, בדיוק כפי שעיצבנו
             Assert.Contains("<!DOCTYPE html>", htmlResult);
-            Assert.Contains("<th>title</th>", htmlResult);
-            Assert.Contains("<th>author</th>", htmlResult);
-            Assert.Contains("<th>price</th>", htmlResult);
+            Assert.Contains("<th>Title</th>", htmlResult);
+            Assert.Contains("<th>Author</th>", htmlResult);
+            Assert.Contains("<th>Price</th>", htmlResult);
         }
     }
 }

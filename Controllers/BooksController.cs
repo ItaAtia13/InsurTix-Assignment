@@ -39,11 +39,6 @@ namespace InsurTix.Api.Controllers
         [HttpPost]
         public async Task<ActionResult> AddBook([FromBody] BookDto bookDto)
         {
-            if (string.IsNullOrWhiteSpace(bookDto.Isbn))
-            {
-                return BadRequest("ISBN is required.");
-            }
-
             try
             {
                 var existingBook = await _bookService.GetBookByIsbnAsync(bookDto.Isbn);
@@ -53,7 +48,7 @@ namespace InsurTix.Api.Controllers
                 }
 
                 await _bookService.AddBookAsync(bookDto);
-                
+
                 return CreatedAtAction(nameof(GetBookByIsbn), new { isbn = bookDto.Isbn }, bookDto);
             }
             catch (Exception ex)
@@ -78,7 +73,7 @@ namespace InsurTix.Api.Controllers
             }
 
             await _bookService.UpdateBookAsync(bookDto);
-            return NoContent(); 
+            return NoContent();
         }
 
         // DELETE: api/books/{isbn}
@@ -100,8 +95,8 @@ namespace InsurTix.Api.Controllers
         public async Task<IActionResult> GetHtmlReport()
         {
             var htmlContent = await _bookService.GenerateHtmlReportAsync();
-            
-            
+
+
             return Content(htmlContent, "text/html", System.Text.Encoding.UTF8);
         }
     }

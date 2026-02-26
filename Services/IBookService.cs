@@ -9,7 +9,7 @@ namespace InsurTix.Api.Services
         Task AddBookAsync(BookDto bookDto);
         Task UpdateBookAsync(BookDto bookDto);
         Task DeleteBookAsync(string isbn);
-        
+
         Task<string> GenerateHtmlReportAsync();
     }
 }
