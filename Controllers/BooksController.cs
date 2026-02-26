@@ -10,7 +10,6 @@ namespace InsurTix.Api.Controllers
     {
         private readonly IBookService _bookService;
 
-        // הזרקת התלות של ה-Service שלנו
         public BooksController(IBookService bookService)
         {
             _bookService = bookService;
@@ -47,7 +46,6 @@ namespace InsurTix.Api.Controllers
 
             try
             {
-                // קודם נוודא שהספר לא קיים כבר
                 var existingBook = await _bookService.GetBookByIsbnAsync(bookDto.Isbn);
                 if (existingBook != null)
                 {
@@ -56,7 +54,6 @@ namespace InsurTix.Api.Controllers
 
                 await _bookService.AddBookAsync(bookDto);
                 
-                // החזרת סטטוס 201 (Created) ונתיב גישה לספר החדש
                 return CreatedAtAction(nameof(GetBookByIsbn), new { isbn = bookDto.Isbn }, bookDto);
             }
             catch (Exception ex)
@@ -81,7 +78,7 @@ namespace InsurTix.Api.Controllers
             }
 
             await _bookService.UpdateBookAsync(bookDto);
-            return NoContent(); // סטטוס 204 - הפעולה הצליחה ואין תוכן להחזיר
+            return NoContent(); 
         }
 
         // DELETE: api/books/{isbn}
@@ -104,7 +101,7 @@ namespace InsurTix.Api.Controllers
         {
             var htmlContent = await _bookService.GenerateHtmlReportAsync();
             
-            // מחזירים את התוכן כ-HTML אמיתי כדי שהדפדפן ידע לרנדר אותו
+            
             return Content(htmlContent, "text/html", System.Text.Encoding.UTF8);
         }
     }

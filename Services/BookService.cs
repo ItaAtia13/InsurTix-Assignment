@@ -14,7 +14,6 @@ namespace InsurTix.Api.Services
             _repository = repository;
         }
 
-        // פונקציות עזר להמרה בין המודל ל-DTO
         private BookDto MapToDto(Book book)
         {
             return new BookDto
@@ -24,7 +23,7 @@ namespace InsurTix.Api.Services
                 Category = book.Category,
                 Year = book.Year,
                 Price = book.Price,
-                // חיבור רשימת המחברים למחרוזת אחת מופרדת בפסיקים
+
                 Author = book.Authors != null && book.Authors.Any() 
                          ? string.Join(", ", book.Authors) 
                          : string.Empty
@@ -40,7 +39,7 @@ namespace InsurTix.Api.Services
                 Category = dto.Category,
                 Year = dto.Year,
                 Price = dto.Price,
-                // פירוק המחרוזת חזרה לרשימה לפני השמירה ב-XML
+
                 Authors = string.IsNullOrWhiteSpace(dto.Author) 
                           ? new List<string>() 
                           : dto.Author.Split(',').Select(a => a.Trim()).ToList()
@@ -98,7 +97,6 @@ namespace InsurTix.Api.Services
             html.AppendLine("    <table>");
             html.AppendLine("        <thead>");
             html.AppendLine("            <tr>");
-            // עמודות בדיוק כפי שהוגדרו במטלה
             html.AppendLine("                <th>title</th>");
             html.AppendLine("                <th>author</th>");
             html.AppendLine("                <th>category</th>");

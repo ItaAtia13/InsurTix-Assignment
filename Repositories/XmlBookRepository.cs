@@ -23,21 +23,17 @@ namespace InsurTix.Api.Repositories
             }
         }
 
-        // פונקציית עזר להמרת צומת XML למודל שלנו
         private Book MapToBook(XElement element)
         {
             return new Book
             {
-                // קריאת אלמנטים פנימיים
                 Isbn = element.Element("isbn")?.Value ?? string.Empty,
                 Title = element.Element("title")?.Value ?? string.Empty,
                 Year = int.TryParse(element.Element("year")?.Value, out int year) ? year : 0,
                 Price = decimal.TryParse(element.Element("price")?.Value, out decimal price) ? price : 0,
                 
-                // קריאת Attribute (מאפיין של התגית עצמה)
                 Category = element.Attribute("category")?.Value ?? string.Empty,
                 
-                // שליפת כל תגיות ה-author והפיכתן לרשימה של מחרוזות
                 Authors = element.Elements("author").Select(a => a.Value).ToList()
             };
         }
@@ -84,7 +80,6 @@ namespace InsurTix.Api.Repositories
             {
                 var doc = XDocument.Load(_filePath);
                 
-                // מניעת כפילויות
                 if (doc.Descendants("book").Any(x => x.Element("isbn")?.Value == book.Isbn))
                 {
                     throw new InvalidOperationException($"Book with ISBN {book.Isbn} already exists.");
@@ -98,7 +93,6 @@ namespace InsurTix.Api.Repositories
                     new XElement("price", book.Price)
                 );
 
-                // הוספת כל המחברים
                 foreach (var author in book.Authors)
                 {
                     newBookElement.Add(new XElement("author", author));
@@ -124,17 +118,14 @@ namespace InsurTix.Api.Repositories
 
                 if (element != null)
                 {
-                    // עדכון מאפיינים ואלמנטים פשוטים
                     element.SetAttributeValue("category", book.Category);
                     element.SetElementValue("title", book.Title);
                     element.SetElementValue("year", book.Year);
                     element.SetElementValue("price", book.Price);
 
-                    // עדכון מחברים: מחיקת הקיימים והוספת החדשים
                     element.Elements("author").Remove();
                     foreach (var author in book.Authors)
                     {
-                        // נוסיף את המחברים לפני שנת ההוצאה כדי לשמור על סדר הגיוני ב-XML
                         element.Element("year")?.AddBeforeSelf(new XElement("author", author));
                     }
 

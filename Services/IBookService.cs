@@ -10,7 +10,6 @@ namespace InsurTix.Api.Services
         Task UpdateBookAsync(BookDto bookDto);
         Task DeleteBookAsync(string isbn);
         
-        // הפונקציה המיוחדת להפקת דוח ה-HTML
         Task<string> GenerateHtmlReportAsync();
     }
 }

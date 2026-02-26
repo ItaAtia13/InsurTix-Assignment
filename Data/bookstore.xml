@@ -25,11 +25,11 @@
     <year>2003</year>
     <price>39.95</price>
   </book>
-  <book category="fox">
+  <book category="hachooal">
     <isbn>5556</isbn>
     <title lang="en">gili</title>
-    <year>10</year>
-    <price>120</price>
     <author>ita</author>
+    <year>2002</year>
+    <price>120</price>
   </book>
 </bookstore>
