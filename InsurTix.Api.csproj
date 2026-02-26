@@ -9,5 +9,12 @@
   <ItemGroup>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <Compile Remove="InsurTix.Api.Tests\**" />
+    <Content Remove="InsurTix.Api.Tests\**" />
+    <EmbeddedResource Remove="InsurTix.Api.Tests\**" />
+    <None Remove="InsurTix.Api.Tests\**" />
+  </ItemGroup>
 
 </Project>
